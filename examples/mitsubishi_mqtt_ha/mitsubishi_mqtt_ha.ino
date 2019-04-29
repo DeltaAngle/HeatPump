@@ -257,7 +257,7 @@ void haConfig() {
   
   // send HA config packet
   // setup HA payload device
-  const int bufferSize = JSON_OBJECT_SIZE(42);
+  const int bufferSize = JSON_OBJECT_SIZE(48);
   StaticJsonDocument<bufferSize> haConfig;
 
   haConfig["name"]                          = ha_friendly_name;
