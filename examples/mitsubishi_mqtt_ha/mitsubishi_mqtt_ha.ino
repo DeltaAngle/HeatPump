@@ -271,7 +271,7 @@ void haConfig() {
   haConfig["current_temperature_template"]  = "{{ value_json.roomTemperature }}";
   haConfig["min_temp"]                      = "61";
   haConfig["max_temp"]                      = "88";
-  haConfig["unique_id"]                      = uniqueID;
+  haConfig["unique_id"]                     = uniqueID;
   haConfig["modes"]                         = serialized("[\"auto\",\"off\",\"cool\",\"heat\",\"dry\",\"fan_only\"]");
   haConfig["fan_modes"]                     = serialized("[\"AUTO\",\"1\",\"2\",\"3\",\"4\"]");
   haConfig["swing_modes"]                   = serialized("[\"AUTO\",\"1\",\"2\",\"3\",\"4\",\"5\",\"SWING\"]");
@@ -282,15 +282,14 @@ void haConfig() {
   haConfig["swing_mode_cmd_t"]              = "heatpump/" + ha_friendly_name + "/vane/set";
   haConfig["swing_mode_stat_t"]             = "heatpump/" + ha_friendly_name + "/state";
   haConfig["swing_mode_stat_tpl"]           = "{{ value_json.vane }}";
-  /*
-  haConfig["device\":{";
-  haConfig["ids\":\"" + ha_friendly_name + "\",";
-  haConfig["name\":\"" + ha_friendly_name + "\",";
-  haConfig["sw\":\"Mitsubishi2MQTT 1.0\",";
-  haConfig["mdl\":\"HVAC MITUBISHI\",";
-  haConfig["mf\":\"MITSUBISHI\"}";
-  */
   
+  JsonObject device = haConfig.createNestedObject("device");
+  device["ids"]                             = "HeatPumpMQTT_" + ha_friendly_name;
+  device["name"]                            = ha_friendly_name;
+  device["sw"]                              = "HeatPump (MQTT) 1.0";
+  device["mdl"]                             = "HVAC MiniSplit";
+  device["mf"]                              = "MITSUBISHI";
+ 
   String mqttOutput;
   serializeJson(haConfig, mqttOutput);
   mqtt_client.beginPublish(ha_config_topic.c_str(), mqttOutput.length(), true);
